@@ -4,7 +4,7 @@ How to comprehend ~5000 lines of EscapeByte by reading ~330 lines here first.
 
 ## Mental model (draw this on the board)
 
-    [ Vite React (App.jsx state router) ]
+    [ Next.js + React (App.jsx state router) ]
          |  fetch JSON only
          v
     [ Express server.js — 4 routes ]
@@ -31,7 +31,8 @@ Every screen is a value of one state variable; every click is a fetch.
    `GET /rooms/:id` (question + hint, **no answer**), `POST /puzzles/:id/check`
    -> `{correct}`, `POST /players` (username signup).
 2. "Routing is just state." — `App.jsx` holds `roomIndex`; solving room 3 sets
-   `completed`. No react-router, no Next file routes — refresh resets by design.
+   `completed`. The Next.js App Router has a single route (`app/page.jsx`); all
+   screen switching inside it is plain `useState` — refresh resets by design.
    Two modes share the same rooms: **Classic Run** auto-advances, **Sequential
    Run** shows a `Lobby.jsx` where room N+1 is locked until room N is cleared.
 3. "Gating is client state." — `Lobby.jsx` unlocks room N+1 by checking
