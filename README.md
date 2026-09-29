@@ -1,7 +1,7 @@
 # Mini Escape (teaching build)
 
 A deliberately tiny version of EscapeByte: **3 rooms, 1 programming puzzle each,
-in-memory Express backend, plain Vite React frontend — ~330 lines total.**
+in-memory Express backend, Next.js (App Router) + React frontend.**
 
 Purpose: a version small enough to read line-by-line and explain in a viva,
 while showing the same core ideas as the full app.

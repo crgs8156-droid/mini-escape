@@ -1,4 +1,4 @@
-const BASE = import.meta.env.VITE_SERVER_URL || "http://localhost:4001";
+const BASE = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:4001";
 
 async function call(path, options) {
   const res = await fetch(`${BASE}${path}`, {
