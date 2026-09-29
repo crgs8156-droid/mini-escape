@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Room from "./Room.jsx";
 import Lobby from "./Lobby.jsx";
-import { getRooms, createPlayer } from "./serverClient.js";
+import { ROOMS } from "./data/rooms.js";
+
+const rooms = ROOMS;
 
 export default function App() {
   const [player, setPlayer] = useState(null);
-  const [rooms, setRooms] = useState([]);
   const [roomIndex, setRoomIndex] = useState(0);
   const [started, setStarted] = useState(false);
   const [completed, setCompleted] = useState(false);
@@ -16,29 +17,15 @@ export default function App() {
   const [activeRoom, setActiveRoom] = useState(null);
   const [clearedIds, setClearedIds] = useState([]);
 
-  useEffect(() => {
-    if (!started) return;
-    fetchRooms();
-  }, [started]);
-
-  async function fetchRooms() {
-    try {
-      const data = await getRooms();
-      setRooms(data);
-    } catch (e) {
-      setError(e.message);
-    }
-  }
-
-  async function begin(e) {
+  function begin(e) {
     e.preventDefault();
-    try {
-      const p = await createPlayer(username.trim());
-      setPlayer(p);
-      setStarted(true);
-    } catch (err) {
-      setError(err.message);
+    const name = username.trim();
+    if (name.length < 2 || name.length > 20) {
+      setError("Username must be 2-20 characters");
+      return;
     }
+    setPlayer({ username: name });
+    setStarted(true);
   }
 
   function handleSolved() {
@@ -58,7 +45,6 @@ export default function App() {
 
   function restart() {
     setPlayer(null);
-    setRooms([]);
     setRoomIndex(0);
     setStarted(false);
     setCompleted(false);
@@ -90,7 +76,7 @@ export default function App() {
       </div>
     );
 
-  if (started && rooms.length > 0 && mode === "gated") {
+  if (started && mode === "gated") {
     if (activeRoom !== null)
       return (
         <Room
@@ -113,7 +99,7 @@ export default function App() {
     );
   }
 
-  if (started && rooms.length > 0)
+  if (started)
     return (
       <Room
         key={roomIndex}
